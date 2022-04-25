@@ -26,15 +26,17 @@ class SizedText extends StatelessWidget {
           Row(
             children: [
               for (int i = 0; i < textSize.width / 5; i++)
-                i.isEven?Container(
-                  width: 5,
-                  color: color,
-                  height: 2,
-                ):Container(
-                  width: 5,
-                  color: Colors.white,
-                  height: 2,
-                )
+                i.isEven
+                    ? Container(
+                        width: 5,
+                        color: color,
+                        height: 2,
+                      )
+                    : Container(
+                        width: 5,
+                        color: Colors.white,
+                        height: 2,
+                      )
             ],
           )
         ],

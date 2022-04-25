@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_payment_app/component/colors.dart';
+import 'package:flutter_payment_app/controllers/data_controllers.dart';
 import 'package:flutter_payment_app/pages/payment_page.dart';
 import 'package:flutter_payment_app/widgets/buttons.dart';
 import 'package:flutter_payment_app/widgets/large_button.dart';
@@ -16,6 +17,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final DataController _controller = Get.put(DataController());
+
   @override
   Widget build(BuildContext context) {
     // get width and height
@@ -26,7 +29,21 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         height: h,
         child: Stack(
-          children: [_headSection(), _listBills(), _payButton()],
+          children: [
+            _headSection(),
+            Obx(() {
+              if (_controller.loading == false) {
+                return Center(
+                    child: Container(
+                        width: 80,
+                        height: 80,
+                        child: CircularProgressIndicator()));
+              } else {
+                return _listBills();
+              }
+            }),
+            _payButton()
+          ],
         ),
       ),
     );
@@ -167,7 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
           removeTop: true,
           context: context,
           child: ListView.builder(
-            itemCount: 5,
+            itemCount: _controller.list.length,
             itemBuilder: (_, index) {
               return Container(
                 margin: const EdgeInsets.only(top: 20, right: 20),
@@ -193,6 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
@@ -207,14 +225,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
                                         image:
-                                            AssetImage('images/brand1.png'))),
+                                            AssetImage(_controller.list[index]['img']))),
                               ),
                               SizedBox(width: 10),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'KenGen Power',
+                                    _controller.list[index]['brand'],
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: AppColor.mainColor),
@@ -230,7 +248,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ],
                           ),
                           SizedText(
-                              text: "Auto pay on 24th May 18",
+                              text: _controller.list[index]['more'],
                               color: AppColor.green),
                           SizedBox(height: 5)
                         ],
@@ -255,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 )),
                               ),
                               Expanded(child: Container()),
-                              Text('\$1248.00',
+                              Text('\$${_controller.list[index]['due']}',
                                   style: TextStyle(
                                       fontSize: 18,
                                       color: AppColor.mainColor,
@@ -295,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: AppLargeButton(
           text: 'Pay all bills',
           textColor: Colors.white,
-          onTap: () => {Get.to(()=>PaymentPage())},
+          onTap: () => {Get.to(() => PaymentPage())},
         ));
   }
 

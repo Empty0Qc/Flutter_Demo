@@ -1,0 +1,34 @@
+[
+  {
+    "brand": "KenGen Power",
+    "date": "22-01-08",
+    "status": false,
+    "due": "1280.00",
+    "more": "Pay before",
+    "img": "images/brand1.png"
+  },
+  {
+    "brand": "Apple Power",
+    "date": "22-04-08",
+    "status": false,
+    "due": "4280.00",
+    "more": "You must pay now",
+    "img": "images/brand2.png"
+  },
+  {
+    "brand": "Tech Power",
+    "date": "21-09-08",
+    "status": false,
+    "due": "6530.00",
+    "more": "Pay before",
+    "img": "images/brand3.png"
+  },
+  {
+    "brand": "Orange Power",
+    "date": "12-01-08",
+    "status": false,
+    "due": "9420.00",
+    "more": "Due is 3 days",
+    "img": "images/brand1.png"
+  }
+]
