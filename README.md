@@ -3,7 +3,8 @@
 This project was created when studying Youtube's course and is only used to record my own learning process.
 
 
-// The following is copy from 'https://www.dbestech.com/tutorials/flutter-payment-app-with-paypal'
+
+## The following is copy from 'https://www.dbestech.com/tutorials/flutter-payment-app-with-paypal'
 
 Flutter payment app
 In this tutorial you will learn how to build a complete payment app in flutter. 
