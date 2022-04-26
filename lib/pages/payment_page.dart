@@ -4,6 +4,8 @@ import 'package:flutter_payment_app/widgets/buttons.dart';
 import 'package:flutter_payment_app/widgets/large_button.dart';
 import 'package:get/get.dart';
 
+import '../controllers/data_controllers.dart';
+
 class PaymentPage extends StatelessWidget {
   const PaymentPage({Key? key}) : super(key: key);
 
@@ -11,7 +13,7 @@ class PaymentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
-
+    DataController controller = Get.find();
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 80, left: 20, right: 20),
@@ -36,7 +38,7 @@ class PaymentPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
                     color: AppColor.mainColor)),
-            Text('Payment is completed for 2 bills',
+            Text('Payment is completed for ${controller.newList.length} bills',
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 20,
@@ -44,7 +46,7 @@ class PaymentPage extends StatelessWidget {
             SizedBox(height: h * 0.045),
             Container(
               height: 178,
-              width: 350,
+              width: 380,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border:
@@ -55,58 +57,63 @@ class PaymentPage extends StatelessWidget {
                 removeBottom: true,
                 context: context,
                 child: ListView.builder(
-                  itemCount: 3,
-                  itemBuilder: (_, index){
+                  itemCount: controller.newList.length,
+                  itemBuilder: (_, index) {
                     return Container(
                       child: Column(
                         children: [
                           Row(
                             children: [
                               Container(
-                                margin: const EdgeInsets.only(top: 15, left: 20, bottom: 10),
+                                margin: const EdgeInsets.only(
+                                    top: 15, left: 20, bottom: 10, right: 10),
                                 width: 50,
                                 height: 50,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: Colors.green),
-                                child:
-                                Icon(Icons.done, size: 30, color: Colors.white),
+                                child: Icon(Icons.done,
+                                    size: 30, color: Colors.white),
                               ),
-                              SizedBox(width: 5),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'KenGen Power',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColor.mainColor),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                      'Id: 1213453',
+                              SizedBox(width: 10),
+                              SizedBox(
+                                width: 120,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.newList[index]['brand'],
                                       style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
-                                          color: AppColor.idColor)
-                                  )
-                                ],
+                                          color: AppColor.mainColor),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                        'Id: ${controller.newList[index]['id']}',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColor.idColor))
+                                  ],
+                                ),
                               ),
-                              SizedBox(width: 20),
+                              SizedBox(width: 60),
                               Container(
-                                  margin: const EdgeInsets.only(top: 26),
                                   child: Text(
-                                    '\$1248.00',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColor.mainColor),
-                                  )
-                              )
+                                '\$${controller.newList[index]['due']}',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColor.mainColor),
+                              ))
                             ],
                           ),
-                          index != 2 ? Divider(thickness: 2, color: Colors.grey.withOpacity(0.5)) : Container()
+                          index != 2
+                              ? Divider(
+                                  thickness: 2,
+                                  color: Colors.grey.withOpacity(0.5))
+                              : Container()
                         ],
                       ),
                     );
@@ -119,13 +126,13 @@ class PaymentPage extends StatelessWidget {
               children: [
                 Text(
                   'Total Amount',
-                  style: TextStyle(fontSize: 20,
-                  color: AppColor.idColor),
+                  style: TextStyle(fontSize: 20, color: AppColor.idColor),
                 ),
                 SizedBox(height: 10),
                 Text(
-                  '\$2840.00',
-                  style: TextStyle(fontSize: 30,
+                  '\$${controller.totalDue}',
+                  style: TextStyle(
+                      fontSize: 30,
                       fontWeight: FontWeight.w600,
                       color: AppColor.mainColor),
                 )
@@ -135,13 +142,19 @@ class PaymentPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AppButtons(icon: Icons.share, onTap: (){}, text: 'Share'),
+                AppButtons(icon: Icons.share, onTap: () {}, text: 'Share'),
                 SizedBox(width: 80),
-                AppButtons(icon: Icons.print, onTap: (){}, text: 'Print')
+                AppButtons(icon: Icons.print, onTap: () {}, text: 'Print')
               ],
             ),
-            SizedBox(height: h*0.02),
-            AppLargeButton(text: 'Done', backgroundColor: Colors.white, textColor: AppColor.mainColor, onTap: (){Get.back();})
+            SizedBox(height: h * 0.02),
+            AppLargeButton(
+                text: 'Done',
+                backgroundColor: Colors.white,
+                textColor: AppColor.mainColor,
+                onTap: () {
+                  Get.back();
+                })
           ],
         ),
       ),

@@ -8,6 +8,17 @@ class DataController extends GetxController {
   get loading => _loading.value;
   final service = new DataServices();
 
+  get newList =>
+      list.where((element) => element['status'] == true).map((e) => e).toList();
+
+  get totalDue {
+    double count = 0.0;
+    list.where((element) => element['status'] == true).forEach((element) {
+      count += double.parse(element['due']);
+    });
+    return count;
+  }
+
   @override
   void onInit() {
     _loadData();

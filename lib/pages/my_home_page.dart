@@ -224,8 +224,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         width: 3, color: Colors.redAccent),
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image:
-                                            AssetImage(_controller.list[index]['img']))),
+                                        image: AssetImage(
+                                            _controller.list[index]['img']))),
                               ),
                               SizedBox(width: 10),
                               Column(
@@ -239,7 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ),
                                   SizedBox(height: 10),
                                   Text(
-                                    'ID: 886886',
+                                    'ID: ${_controller.list[index]['id']}',
                                     style: TextStyle(
                                         fontSize: 16, color: AppColor.idColor),
                                   )
@@ -258,19 +258,38 @@ class _MyHomePageState extends State<MyHomePage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                width: 80,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: AppColor.selectBackground),
-                                child: Center(
-                                    child: Text(
-                                  'Select',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: AppColor.selectColor),
-                                )),
+                              GestureDetector(
+                                onTap: () {
+                                  _controller.list[index]["status"] =
+                                      !_controller.list[index]["status"];
+                                  // need to refresh the list data
+                                  _controller.list.refresh();
+                                  // refresh the bills list
+                                  printInfo(
+                                      info: _controller.newList.toString());
+                                },
+                                child: Container(
+                                  width: 80,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: _controller.list[index]
+                                                  ["status"] ==
+                                              false
+                                          ? AppColor.backGroundColor
+                                          : AppColor.green),
+                                  child: Center(
+                                      child: Text(
+                                    'Select',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: _controller.list[index]
+                                                    ["status"] ==
+                                                false
+                                            ? AppColor.selectColor
+                                            : Colors.white),
+                                  )),
+                                ),
                               ),
                               Expanded(child: Container()),
                               Text('\$${_controller.list[index]['due']}',
