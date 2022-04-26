@@ -64,6 +64,12 @@ The widgets we have used are
 
 6. TextSpan widgets
 
+
+## I just decode the local json file to the data, If you want do something likes backend service, you can try by yourself.
+## In the after time, i'll try the backend service to this project when i have any free times.
+
+# The following content is about the original link to the directory provided by the original author. 
+# https://youtu.be/5rENfaExzeQ
 In the second part we did the following
 
 1. Flutter service
